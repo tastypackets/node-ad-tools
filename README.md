@@ -134,9 +134,9 @@ const message = ActiveDirectory.resolveBindError(res.entry)
 
 **Returns**
 
-| Returned | Type | Description |
-| -------- | ---- | ----------- |
-| Always | String | A user friendly message indicating why the login failed |
+| Type | Description |
+| ---- | ----------- |
+| String | A user friendly message indicating why the login failed |
 
 
 ### resolveGUID(entry)
@@ -150,14 +150,14 @@ const guid = ActiveDirectory.resolveGUID(res.entry)
 **Params**
 
 | Required | Type | Description |
--------- | ---- | ----------- |
+| -------- | ---- | ----------- |
 | Required | Object | This is the ldapjs entry obj, this is returned by loginAdUser when success is true. |
 
 **Returns**
 
-| Returned | Type | Description |
--------- | ---- | ----------- |
-| Always | String | An array of group name strings. *This is the group names only, not the full AD location* |
+| Type | Description |
+| ---- | ----------- |
+| String | An array of group name strings. *This is the group names only, not the full AD location* |
 
 
 ### resolveGroups(entry)
@@ -175,9 +175,9 @@ const guid = ActiveDirectory.resolveGroups(res.entry)
 
 **Returns**
 
-| Returned | Type | Description |
-| -------- | ---- | ----------- |
-| Always | Array | Unique AD key |
+| Type | Description |
+| ---- | ----------- |
+| String | Unique AD key |
 
 
 # Potential Issues
