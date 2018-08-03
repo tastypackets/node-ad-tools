@@ -1,9 +1,6 @@
 const assert = require('assert');
 const AD = require('../index').ActiveDirectory;
 
-//const testConfig = { url: '', suffix: '' }
-//const  = new index.ActiveDirectory(testConfig);
-
 const testEntry = {
     object: {
         memberOf: [
