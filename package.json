@@ -7,7 +7,7 @@
   "author": "Ezekiel Keator <20361796+tastypackets@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha test/*.js || exit 0"
+    "test": "mocha"
   },
   "dependencies": {
     "ldapjs": "^1.0.2"
