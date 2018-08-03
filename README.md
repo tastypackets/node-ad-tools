@@ -48,8 +48,9 @@ myAD.loginAdUser('test@domain.local','password')
 
 
 #### Constructor Config Options
-Key | Type | Required | Description
---- | ---- | -------- | -----------
+
+| Key | Type | Required | Description |
+| --- | ---- | -------- | ----------- |
 | url | String | Required | The url to the AD server, should start with `ldap://` or `ldaps://` |
 | suffix | String | Required | AD suffix, example.local would be `dc=example, dc=local`|
 | searchOptions | Object | Optional | ldapjs searchOptions, defaults to `scope: 'sub'` |
@@ -75,14 +76,16 @@ myAD.loginAdUser('test@domain.local','password')
 ```
 
 **Params**
-Required | Type | Description
--------- | ---- | -----------
+
+| Required | Type | Description
+| -------- | ---- | -----------
 | Required | String | Username - **this must be the UPN** e.g. test@domain.local |
 | Required | String | Password |
 
 **Both resolve & reject will be in the following format**
-Key | Returned | Type | Description
---- | -------- | ---- | -----------
+
+| Key | Returned | Type | Description |
+| --- | -------- | ---- | ----------- |
 | success | Always | boolean | Indicates if the login succeeded |
 | entry | Situational | Object | Entry is the ldapjs entry response |
 | message | Situational | String | User firendly message from resolveBindError, only on `success: false` |
@@ -100,13 +103,15 @@ const user = ActiveDirectory.resolveBindError(res.entry)
 ```
 
 **Params**
-Required | Type | Description
--------- | ---- | -----------
+
+| Required | Type | Description |
+| -------- | ---- | ----------- |
 | Required | Object | This is the ldapjs entry obj, this is returned by loginAdUser when success is true. |
 
 **Returns Object**
-Returned | Type | Description
--------- | ---- | -----------
+
+| Returned | Type | Description |
+| -------- | ---- | ----------- |
 | groups | Array | An array of group name strings. *This is the group names only, not the full AD location* |
 | phone | String | Users phone number |
 | name | String | Users full name |
@@ -124,13 +129,15 @@ const message = ActiveDirectory.resolveBindError(res.entry)
 ```
 
 **Params**
-Required | Type | Description
--------- | ---- | -----------
+
+| Required | Type | Description |
+| -------- | ---- | ----------- |
 | Required | Object | This is the ldapjs entry obj, this is returned by loginAdUser when success is true. |
 
 **Returns**
-Returned | Type | Description
--------- | ---- | -----------
+
+| Returned | Type | Description |
+| -------- | ---- | ----------- |
 | Always | String | A user friendly message indicating why the login failed |
 
 ---
@@ -144,13 +151,15 @@ const guid = ActiveDirectory.resolveGUID(res.entry)
 ```
 
 **Params**
-Required | Type | Description
--------- | ---- | -----------
+
+| Required | Type | Description |
+-------- | ---- | ----------- |
 | Required | Object | This is the ldapjs entry obj, this is returned by loginAdUser when success is true. |
 
 **Returns**
-Returned | Type | Description
--------- | ---- | -----------
+
+| Returned | Type | Description |
+-------- | ---- | ----------- |
 | Always | String | An array of group name strings. *This is the group names only, not the full AD location* |
 
 ---
@@ -162,13 +171,15 @@ const guid = ActiveDirectory.resolveGroups(res.entry)
 // Example: ['Group1', 'Group2']
 ```
 **Params**
-Required | Type | Description
--------- | ---- | -----------
+
+| Required | Type | Description |
+| -------- | ---- | ----------- |
 | Required | Object | This is the ldapjs entry obj, this is returned by loginAdUser when success is true. |
 
 **Returns**
-Returned | Type | Description
--------- | ---- | -----------
+
+| Returned | Type | Description |
+| -------- | ---- | ----------- |
 | Always | Array | Unique AD key |
 
 
