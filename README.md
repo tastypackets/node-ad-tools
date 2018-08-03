@@ -91,7 +91,6 @@ myAD.loginAdUser('test@domain.local','password')
 | message | Situational | String | User friendly message from resolveBindError, only on `success: false` |
 | error | Situational | String | The original error generated, only on `success: false` |
 
----
 
 ### createUserObj(entry)
 Takes in the entry returned by ldapjs and creates a standardized user object. If you do not want to store all the users data it is recommended you extract the values you need from this object, because in the future there will likely be many more fields added to this. The first set of fields added were based on immediate needs.
@@ -118,7 +117,6 @@ const user = ActiveDirectory.resolveBindError(res.entry)
 | mail | String | Users email address |
 | guid | String | Unique AD key, this should be used to track and or link the user account to your app. |
 
----
 
 ### resolveBindError(entry)
 This function takes in the ldapjs errors and checks if it's due to invalid credentials or if the account is locked out. **This does not check if an account is disabled, so it will still return as invalid credentials**
@@ -140,7 +138,6 @@ const message = ActiveDirectory.resolveBindError(res.entry)
 | -------- | ---- | ----------- |
 | Always | String | A user friendly message indicating why the login failed |
 
----
 
 ### resolveGUID(entry)
 Takes in the entry returned by ldapjs and creates a GUID string. This should be used as your unique ID in your app or somehow used to link to a unique ID in your app. This will not change for the life of the object in AD, so even if the users name or email is changed this will stay the same.
@@ -162,7 +159,7 @@ const guid = ActiveDirectory.resolveGUID(res.entry)
 -------- | ---- | ----------- |
 | Always | String | An array of group name strings. *This is the group names only, not the full AD location* |
 
----
+
 ### resolveGroups(entry)
 Takes in the entry returned by ldapjs and creates an array of the users groups.
 
