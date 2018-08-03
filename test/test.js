@@ -11,7 +11,7 @@ const testEntry = {
             'CN=Group2,OU=Test,OU=Test2,DC=domain,DC=com',
         ],
         mail: 'test@domain.com',
-        telephoneNumber: '123-123-1234',
+        telephoneNumber: '+1 12312312324',
         name: 'Test User'
     },
     attributes: [
@@ -100,7 +100,7 @@ describe('Static Functions', () => {
             const userObj = {
                 groups: ['Group1', 'Group2'],
                 mail: 'test@domain.com',
-                phone: '123-123-1234',
+                phone: '+1 12312312324',
                 name: 'Test User',
                 guid: '17d4e710-624d-4978-900b-8549cb753699'
             }
