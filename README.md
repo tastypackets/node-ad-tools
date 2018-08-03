@@ -1,16 +1,16 @@
 # ad-tools
 NodeJS Active Directory authentication and tools. - **Requires ES6 support**
 
-This is a simple wrapper around ldapjs, which is a full ldap server & client. For custom or advanced setups please see https://github.com/joyent/node-ldapjs. This is highly opinionated and lacking in may features right now, but should work for simple AD authetnication.
+This is a simple wrapper around ldapjs, which is a full ldap server & client. For custom or advanced setups please see https://github.com/joyent/node-ldapjs. This is highly opinionated and lacking in may features right now, but should work for simple AD authentication.
 
-PR's that improve the project a welcomed, right now development is primarly on an as-needed basis.
+PR's that improve the project a welcomed, right now development is primarily on an as-needed basis.
 
 # API
 ## Install
 `yarn add ad-tools`
 
 ### Setup AD
-The active directory class requires a basic confiurgtion object that will inform ldapjs of the binding and searching paramters. This is configured once by creating a new ActiveDirectory object, if you need to change these settings dynamically you can construct the object right before performing the auth.
+The active directory class requires a basic configuration object that will inform ldapjs of the binding and searching parameters. This is configured once by creating a new ActiveDirectory object, if you need to change these settings dynamically you can construct the object right before performing the auth.
 
 ```javascript
 {
@@ -88,7 +88,7 @@ myAD.loginAdUser('test@domain.local','password')
 | --- | -------- | ---- | ----------- |
 | success | Always | boolean | Indicates if the login succeeded |
 | entry | Situational | Object | Entry is the ldapjs entry response |
-| message | Situational | String | User firendly message from resolveBindError, only on `success: false` |
+| message | Situational | String | User friendly message from resolveBindError, only on `success: false` |
 | error | Situational | String | The original error generated, only on `success: false` |
 
 ---
@@ -121,7 +121,7 @@ const user = ActiveDirectory.resolveBindError(res.entry)
 ---
 
 ### resolveBindError(entry)
-This dunction takes in the ldapjs errors and checks if it's due to invalid credentials or if the account is locked out. **This does not check if an account is disabled, so it will still return as invalid credentials**
+This function takes in the ldapjs errors and checks if it's due to invalid credentials or if the account is locked out. **This does not check if an account is disabled, so it will still return as invalid credentials**
 
 ```javascript
 const message = ActiveDirectory.resolveBindError(res.entry)
