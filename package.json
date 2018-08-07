@@ -1,11 +1,11 @@
 {
-  "name": "ad-tools",
+  "name": "node-ad-tools",
   "version": "1.0.0",
   "description": "Basic Active Directory wrapper for ldapjs",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tastypackets/ad-tools.git"
+    "url": "https://github.com/tastypackets/node-ad-tools.git"
   },
   "author": "Ezekiel Keator <20361796+tastypackets@users.noreply.github.com>",
   "license": "MIT",
@@ -19,9 +19,9 @@
     "mocha": "^5.2.0"
   },
   "bugs": {
-    "url": "https://github.com/tastypackets/ad-tools/issues"
+    "url": "https://github.com/tastypackets/node-ad-tools/issues"
   },
-  "homepage": "https://github.com/tastypackets/ad-tools#readme",
+  "homepage": "https://github.com/tastypackets/node-ad-tools#readme",
   "directories": {
     "lib": "lib",
     "test": "test"
