@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "Basic Active Directory wrapper for ldapjs",
   "main": "index.js",
-  "repository": "git@github.com:tastypackets/ad-tools.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tastypackets/ad-tools.git"
+  },
   "author": "Ezekiel Keator <20361796+tastypackets@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
@@ -14,5 +17,19 @@
   },
   "devDependencies": {
     "mocha": "^5.2.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/tastypackets/ad-tools/issues"
+  },
+  "homepage": "https://github.com/tastypackets/ad-tools#readme",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "keywords": [
+    "active",
+    "directory",
+    "ad",
+    "ldap"
+  ]
 }
