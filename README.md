@@ -15,14 +15,14 @@ The active directory class requires a basic configuration object that will infor
 ```javascript
 {
     url: 'ldap://192.168.1.1',
-    suff: 'dc=domain,dc=local',
+    suffix: 'dc=domain,dc=local',
     searchOptions: {scope: 'sub'},
     idleTimeout: 3000
 }
 ```
 ### Full Example
 ```javascript
-const { ActiveDirectory } = require('./index');
+const { ActiveDirectory } = require('ad-tools');
 
 const myADConfig = {
     url: 'ldap://192.168.1.1', // You can use DNS as well for redundency in a domain, like domain.local
@@ -31,7 +31,7 @@ const myADConfig = {
 
 const myAD = new ActiveDirectory(myADConfig);
 
-myAD.loginAdUser('test@domain.local','password')
+myAD.loginUser('test@domain.local','password')
     .then(res => {
         // If it failed to auth user find out why
         if(!res.success) {
@@ -57,11 +57,11 @@ myAD.loginAdUser('test@domain.local','password')
 | idleTimeout | Number | Optional | How long to wait for response from AD before timing out |
 
 ## Methods
-### loginAdUser(username, password)
+### loginUser(username, password)
 This function takes a username and password and will return a Promise. **The promise will only reject client connection issues**, invalid authentication will still resolve the promise. This was done to make it easier to provide a different error or to try a 2ndry auth source easily. The success key is on all types of responses and should be used to verify if user was logged in. If success is false there will be 2 additional keys, message and error.
 
 ```javascript
-myAD.loginAdUser('test@domain.local','password')
+myAD.loginUser('test@domain.local','password')
     .then(res => {
         // If it failed to auth user find out why
         if(!res.success) {
@@ -105,7 +105,7 @@ const user = ActiveDirectory.resolveBindError(res.entry)
 
 | Required | Type | Description |
 | -------- | ---- | ----------- |
-| Required | Object | This is the ldapjs entry obj, this is returned by loginAdUser when success is true. |
+| Required | Object | This is the ldapjs entry obj, this is returned by loginUser when success is true. |
 
 **Returns Object**
 
@@ -130,7 +130,7 @@ const message = ActiveDirectory.resolveBindError(res.entry)
 
 | Required | Type | Description |
 | -------- | ---- | ----------- |
-| Required | Object | This is the ldapjs entry obj, this is returned by loginAdUser when success is true. |
+| Required | Object | This is the ldapjs entry obj, this is returned by loginUser when success is true. |
 
 **Returns**
 
@@ -151,7 +151,7 @@ const guid = ActiveDirectory.resolveGUID(res.entry)
 
 | Required | Type | Description |
 | -------- | ---- | ----------- |
-| Required | Object | This is the ldapjs entry obj, this is returned by loginAdUser when success is true. |
+| Required | Object | This is the ldapjs entry obj, this is returned by loginUser when success is true. |
 
 **Returns**
 
@@ -171,7 +171,7 @@ const guid = ActiveDirectory.resolveGroups(res.entry)
 
 | Required | Type | Description |
 | -------- | ---- | ----------- |
-| Required | Object | This is the ldapjs entry obj, this is returned by loginAdUser when success is true. |
+| Required | Object | This is the ldapjs entry obj, this is returned by loginUser when success is true. |
 
 **Returns**
 
