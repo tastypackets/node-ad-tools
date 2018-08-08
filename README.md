@@ -16,9 +16,9 @@ The active directory class requires a basic configuration object that will infor
 {
     url: 'ldap://192.168.1.1',
     base: 'dc=domain,dc=local',
-    searchOptions: {scope: 'sub'},
-    idleTimeout: 3000,
-    tlsOptions: { rejectUnauthorized: false }
+    searchOptions: {scope: 'sub'}, // Optional
+    idleTimeout: 3000, // Optional
+    tlsOptions: { rejectUnauthorized: false } // Optional
 }
 ```
 
@@ -64,7 +64,7 @@ myAD.loginUser('test@domain.local','password','cn=Users,dc=example,dc=local')
 | tlsOptions | Object | Optional | Node TLS options used when connecting using TLS. See Node TLS API for details about options. |
 
 ## Methods
-### loginUser(username, password)
+### loginUser(username, password, base `(optional)`)
 This function takes a username and password and will return a Promise. **The promise will only reject client connection issues**, invalid authentication will still resolve the promise. This was done to make it easier to provide a different error or to try a 2ndry auth source easily. The success key is on all types of responses and should be used to verify if user was logged in. If success is false there will be 2 additional keys, message and error.
 
 ```javascript
@@ -99,7 +99,7 @@ myAD.loginUser('test@domain.local','password')
 | message | Situational | String | User friendly message from resolveBindError, only on `success: false` |
 | error | Situational | String | The original error generated, only on `success: false` |
 
-### getAllGroups(username, password)
+### getAllGroups(username, password, base `(optional)`)
 Look-up all the groups in active directory that the user can read, which is based on read permission configuration in active directory. All groups are returned in array of strings.
 
 **This is all groups the user can read, not just groups the user is a member of.**
