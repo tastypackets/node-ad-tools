@@ -23,10 +23,10 @@ const testEntry = {
 
 describe('Static Functions', () => {
     describe('#resolveBindError()', () => {
-        it('Should return unkown if random text is sent', () => {
+        it('Should return unknown if random text is sent', () => {
             assert.equal(
                 AD.resolveBindError('ergrughusi'),
-                'Unkown Auth Error'
+                'Unknown Auth Error'
             );
         });
 
