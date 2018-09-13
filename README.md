@@ -146,6 +146,53 @@ myAD.getAllGroups('test@domain.local','password')
 | message | Situational | String | User friendly message from resolveBindError, only on `success: false` |
 | error | Situational | String | The original error generated, only on `success: false` |
 
+### getAllUsers(username, password, base `(optional)`)
+Look-up all the users in active directory that the user can read, which is based on read permission configuration in active directory. All user entry objects are returned in an array.
+
+```javascript
+{
+    success: true,
+    users: [
+        SearchEntry: {} // This is a valid entry just like login user and can be passed to createUserObj() method.
+    ]
+}
+```
+
+This function takes a username and password and will return a Promise. **The promise will only reject client connection issues**, invalid authentication will still resolve the promise. This was done to make it easier to provide a different error or to try a 2ndry auth source easily. The success key is on all types of responses and should be used to verify if user was logged in. If success is false there will be 2 additional keys, message and error.
+
+```javascript
+myAD.getAllUsers('test@domain.local','password','cn=Users,dc=domain,dc=local') // Example of only searching Users OU inside the domain
+    .then(res => {
+        // If it failed to auth user find out why
+        if(!res.success) {
+            console.log(res.message);
+            return;
+        }
+
+        const users = res.users.map(user => ActiveDirectory.createUserObj(user)); // This uses the creatUserObj() method to turn all the entries in the array into user objects.
+
+        console.log(users);
+    })
+    .catch(err => console.error(err))
+```
+
+**Params**
+
+| Required | Type | Description
+| -------- | ---- | -----------
+| Required | String | Username - **this must be the UPN** e.g. test@domain.local |
+| Required | String | Password |
+| Optional | String | Base used when searching for groups, if not passed the default class base will be used. |
+
+**Both resolve & reject will be in the following format**
+
+| Key | Returned | Type | Description |
+| --- | -------- | ---- | ----------- |
+| success | Always | boolean | Indicates if the login succeeded |
+| Users | Situational | Array | An array of all the user entries the user has permissions to read in AD and match the base / scope. |
+| message | Situational | String | User friendly message from resolveBindError, only on `success: false` |
+| error | Situational | String | The original error generated, only on `success: false` |
+
 ### createUserObj(entry)
 Takes in the entry returned by ldapjs and creates a standardized user object. If you do not want to store all the users data it is recommended you extract the values you need from this object, because in the future there will likely be many more fields added to this. The first set of fields added were based on immediate needs.
 
