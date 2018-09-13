@@ -153,7 +153,8 @@ Look-up all the users in active directory that the user can read, which is based
 {
     success: true,
     users: [
-        SearchEntry: {} // This is a valid entry just like login user and can be passed to createUserObj() method.
+        // This is a valid entry just like login user and can be passed to createUserObj() method.
+        SearchEntry: {}
     ]
 }
 ```
@@ -169,8 +170,9 @@ myAD.getAllUsers('test@domain.local','password','cn=Users,dc=domain,dc=local') /
             return;
         }
 
-        const users = res.users.map(user => ActiveDirectory.createUserObj(user)); // This uses the creatUserObj() method to turn all the entries in the array into user objects.
-
+        // This uses the creatUserObj() method to turn all the entries in the array into user objects.
+        const users = res.users.map(user => ActiveDirectory.createUserObj(user)); 
+        
         console.log(users);
     })
     .catch(err => console.error(err))
