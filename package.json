@@ -10,13 +10,16 @@
   "author": "Ezekiel Keator <20361796+tastypackets@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
+    "docs": "jsdoc lib/ActiveDirectory.js -c jsdoc.json -R ./README.md",
     "test": "mocha"
   },
   "dependencies": {
     "ldapjs": "^1.0.2"
   },
   "devDependencies": {
-    "mocha": "^5.2.0"
+    "jsdoc": "^3.5.5",
+    "mocha": "^5.2.0",
+    "tui-jsdoc-template": "^1.2.2"
   },
   "bugs": {
     "url": "https://github.com/tastypackets/node-ad-tools/issues"
