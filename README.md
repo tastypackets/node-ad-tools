@@ -83,14 +83,6 @@ myAD.loginUser('test@domain.local','password')
     .catch(err => console.error(err))
 ```
 
-**Params**
-
-| Required | Type | Description
-| -------- | ---- | -----------
-| Required | String | Username - **this must be the UPN** e.g. test@domain.local |
-| Required | String | Password |
-| Optional | String | Base used when searching for user, if not passed the default class base will be used. |
-
 **Both resolve & reject will be in the following format**
 
 | Key | Returned | Type | Description |
@@ -128,14 +120,6 @@ myAD.getAllGroups('test@domain.local','password')
     })
     .catch(err => console.error(err))
 ```
-
-**Params**
-
-| Required | Type | Description
-| -------- | ---- | -----------
-| Required | String | Username - **this must be the UPN** e.g. test@domain.local |
-| Required | String | Password |
-| Optional | String | Base used when searching for groups, if not passed the default class base will be used. |
 
 **Both resolve & reject will be in the following format**
 
@@ -178,19 +162,11 @@ myAD.getAllUsers('test@domain.local','password','cn=Users,dc=domain,dc=local') /
     .catch(err => console.error(err))
 ```
 
-**Params**
-
-| Required | Type | Description
-| -------- | ---- | -----------
-| Required | String | Username - **this must be the UPN** e.g. test@domain.local |
-| Required | String | Password |
-| Optional | String | Base used when searching for groups, if not passed the default class base will be used. |
-
 **Both resolve & reject will be in the following format**
 
 | Key | Returned | Type | Description |
 | --- | -------- | ---- | ----------- |
-| success | Always | boolean | Indicates if the login succeeded |
+| success | Always | Boolean | Indicates if the login succeeded |
 | Users | Situational | Array | An array of all the user entries the user has permissions to read in AD and match the base / scope. |
 | message | Situational | String | User friendly message from resolveBindError, only on `success: false` |
 | error | Situational | String | The original error generated, only on `success: false` |
@@ -202,13 +178,9 @@ Takes in the entry returned by ldapjs and creates a standardized user object. If
 
 ```javascript
 const user = ActiveDirectory.resolveBindError(res.entry)
+
+console.log(user) // {groups: [], phone: '', name: '', mail: '', guid: ''}
 ```
-
-**Params**
-
-| Required | Type | Description |
-| -------- | ---- | ----------- |
-| Required | Object | This is the ldapjs entry obj, this is returned by loginUser when success is true. |
 
 **Returns Object**
 
@@ -229,19 +201,6 @@ const message = ActiveDirectory.resolveBindError(res.entry)
 // Examples: Account is locked out, Invalid username or password, or Error resolving account.
 ```
 
-**Params**
-
-| Required | Type | Description |
-| -------- | ---- | ----------- |
-| Required | Object | This is the ldapjs entry obj, this is returned by loginUser when success is true. |
-
-**Returns**
-
-| Type | Description |
-| ---- | ----------- |
-| String | A user friendly message indicating why the login failed |
-
-
 ### resolveGUID(entry)
 Takes in the entry returned by ldapjs and creates a GUID string. This should be used as your unique ID in your app or somehow used to link to a unique ID in your app. This will not change for the life of the object in AD, so even if the users name or email is changed this will stay the same.
 
@@ -250,19 +209,6 @@ const guid = ActiveDirectory.resolveGUID(res.entry)
 // Example: 17d4e710-624d-4978-900b-8549cb753699
 ```
 
-**Params**
-
-| Required | Type | Description |
-| -------- | ---- | ----------- |
-| Required | Object | This is the ldapjs entry obj, this is returned by loginUser when success is true. |
-
-**Returns**
-
-| Type | Description |
-| ---- | ----------- |
-| String | An array of group name strings. *This is the group names only, not the full AD location* |
-
-
 ### resolveGroups(entry)
 Takes in the entry returned by ldapjs and creates an array of the users groups.
 
@@ -270,18 +216,6 @@ Takes in the entry returned by ldapjs and creates an array of the users groups.
 const guid = ActiveDirectory.resolveGroups(res.entry)
 // Example: ['Group1', 'Group2']
 ```
-**Params**
-
-| Required | Type | Description |
-| -------- | ---- | ----------- |
-| Required | Object | This is the ldapjs entry obj, this is returned by loginUser when success is true. |
-
-**Returns**
-
-| Type | Description |
-| ---- | ----------- |
-| String | Unique AD key |
-
 
 # Potential Issues
 Sometimes ldapjs has issues with newer version of Node, please see ldapjs for any of these issues.

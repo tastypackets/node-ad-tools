@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Home | node-ad-tools</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/tui-doc.css">
+
+    
+</head>
+<body>
+<nav class="lnb" id="lnb">
+    <div class="logo" style="width: 0px; height: 0px">
+        
+            <a href="https://github.com/tastypackets/node-ad-tools" rel="noopener noreferrer" target="_blank">
+                <img src="img/toast-ui.png" width="100%" height="100%">
+            </a>
+        
+    </div>
+    <div class="title">
+        <h1><a href="index.html" class="link">node-ad-tools</a></h1>
+        
+    </div>
+    <div class="search-container" id="search-container">
+        <input type="text" placeholder="Search">
+        <ul></ul>
+    </div>
+    
+    <div class="lnb-api hidden"><h3>Classes</h3><ul><li><a href="ActiveDirectory.html">ActiveDirectory</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ActiveDirectory_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="ActiveDirectory.html#.createUserObj">createUserObj</a></li><li><a href="ActiveDirectory.html#.resolveBindError">resolveBindError</a></li><li><a href="ActiveDirectory.html#.resolveGroups">resolveGroups</a></li><li><a href="ActiveDirectory.html#.resolveGUID">resolveGUID</a></li><li><a href="ActiveDirectory.html#getAllGroups">getAllGroups</a></li><li><a href="ActiveDirectory.html#getAllUsers">getAllUsers</a></li><li><a href="ActiveDirectory.html#loginUser">loginUser</a></li></ul></div></li></ul></div>
+</nav>
+<div id="resizer"></div>
+
+<div class="main" id="main">
+    
+
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+    <section>
+        <article class="readme"><h1>node-ad-tools</h1><p><img src="https://img.shields.io/npm/v/node-ad-tools.svg" alt="npm"> <br/>
+NodeJS Active Directory authentication and tools. - <strong>Requires ES6 support</strong></p>
+<p>This is a simple wrapper around ldapjs, which is a full ldap server &amp; client. For custom or advanced setups please see https://github.com/joyent/node-ldapjs. This is highly opinionated and lacking in may features right now, but should work for simple AD authentication.</p>
+<p>PR's that improve the project are welcomed, right now development is primarily on an as-needed basis.</p>
+<h1>API</h1><h2>Install</h2><p><code>yarn add node-ad-tools</code></p>
+<h3>Setup AD</h3><p>The active directory class requires a basic configuration object that will inform ldapjs of the binding and searching parameters. This is configured once by creating a new ActiveDirectory object, if you need to change these settings dynamically you can construct the object right before performing the auth.</p>
+<pre class="prettyprint source lang-javascript"><code>{
+    url: 'ldap://192.168.1.1',
+    base: 'dc=domain,dc=local',
+    searchOptions: {scope: 'sub'}, // Optional
+    idleTimeout: 3000, // Optional
+    tlsOptions: { rejectUnauthorized: false } // Optional
+}</code></pre><h3>Full Example</h3><pre class="prettyprint source lang-javascript"><code>const { ActiveDirectory } = require('node-ad-tools');
+
+const myADConfig = {
+    url: 'ldap://192.168.1.1', // You can use DNS as well for redundancy in a domain, like domain.local
+    base: 'dc=domain,dc=local'
+}
+
+const myAD = new ActiveDirectory(myADConfig);
+
+myAD.loginUser('test@domain.local','password')
+    .then(res => {
+        // If it failed to auth user find out why
+        if(!res.success) {
+            console.log(res.message);
+            return;
+        }
+
+        const user = ActiveDirectory.createUserObj(res.entry);
+        console.log(user);
+    })
+    .catch(err => console.error(err))</code></pre><p>Both the class configuration and the methods that interact with Active Directory accept a base. The class one will be the default used if the base is not passed into specific methods. Here is an example of a base:</p>
+<pre class="prettyprint source lang-javascript"><code>// This searches only in the Users OU inside example.local
+myAD.loginUser('test@domain.local','password','cn=Users,dc=example,dc=local')</code></pre><h4>Constructor Config Options</h4><table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>url</td>
+<td>String</td>
+<td>Required</td>
+<td>The url to the AD server, should start with <code>ldap://</code> or <code>ldaps://</code></td>
+</tr>
+<tr>
+<td>base</td>
+<td>String</td>
+<td>Required</td>
+<td>AD base, example.local would be <code>dc=example, dc=local</code></td>
+</tr>
+<tr>
+<td>searchOptions</td>
+<td>Object</td>
+<td>Optional</td>
+<td>ldapjs searchOptions, defaults to <code>scope: 'sub'</code></td>
+</tr>
+<tr>
+<td>idleTimeout</td>
+<td>Number</td>
+<td>Optional</td>
+<td>How long to wait for response from AD before timing out</td>
+</tr>
+<tr>
+<td>tlsOptions</td>
+<td>Object</td>
+<td>Optional</td>
+<td>Node TLS options used when connecting using TLS. See Node TLS API for details about options.</td>
+</tr>
+</tbody>
+</table>
+<h2>Methods</h2><h3>loginUser(username, password, base <code>(optional)</code>)</h3><p>This function takes a username and password and will return a Promise. <strong>The promise will only reject client connection issues</strong>, invalid authentication will still resolve the promise. This was done to make it easier to provide a different error or to try a 2ndry auth source easily. The success key is on all types of responses and should be used to verify if user was logged in. If success is false there will be 2 additional keys, message and error.</p>
+<pre class="prettyprint source lang-javascript"><code>myAD.loginUser('test@domain.local','password')
+    .then(res => {
+        // If it failed to auth user find out why
+        if(!res.success) {
+            console.log(res.message);
+            return;
+        }
+
+        const user = ActiveDirectory.createUserObj(res.entry);
+        console.log(user);
+    })
+    .catch(err => console.error(err))</code></pre><p><strong>Both resolve &amp; reject will be in the following format</strong></p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Returned</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>success</td>
+<td>Always</td>
+<td>boolean</td>
+<td>Indicates if the login succeeded</td>
+</tr>
+<tr>
+<td>entry</td>
+<td>Situational</td>
+<td>Object</td>
+<td>Entry is the ldapjs entry response</td>
+</tr>
+<tr>
+<td>message</td>
+<td>Situational</td>
+<td>String</td>
+<td>User friendly message from resolveBindError, only on <code>success: false</code></td>
+</tr>
+<tr>
+<td>error</td>
+<td>Situational</td>
+<td>String</td>
+<td>The original error generated, only on <code>success: false</code></td>
+</tr>
+</tbody>
+</table>
+<h3>getAllGroups(username, password, base <code>(optional)</code>)</h3><p>Look-up all the groups in active directory that the user can read, which is based on read permission configuration in active directory. All groups are returned in array of strings.</p>
+<p><strong>This is all groups the user can read, not just groups the user is a member of.</strong></p>
+<pre class="prettyprint source"><code>[
+    'Domain Users',
+    'Domain Guests',
+    'Group 1',
+    'Group 2'
+]</code></pre><p>This function takes a username and password and will return a Promise. <strong>The promise will only reject client connection issues</strong>, invalid authentication will still resolve the promise. This was done to make it easier to provide a different error or to try a 2ndry auth source easily. The success key is on all types of responses and should be used to verify if user was logged in. If success is false there will be 2 additional keys, message and error.</p>
+<pre class="prettyprint source lang-javascript"><code>myAD.getAllGroups('test@domain.local','password')
+    .then(res => {
+        // If it failed to auth user find out why
+        if(!res.success) {
+            console.log(res.message);
+            return;
+        }
+
+        console.log(res.groups);
+    })
+    .catch(err => console.error(err))</code></pre><p><strong>Both resolve &amp; reject will be in the following format</strong></p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Returned</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>success</td>
+<td>Always</td>
+<td>boolean</td>
+<td>Indicates if the login succeeded</td>
+</tr>
+<tr>
+<td>groups</td>
+<td>Situational</td>
+<td>Array</td>
+<td>An array of all the groups the user has permissions to read in AD.</td>
+</tr>
+<tr>
+<td>message</td>
+<td>Situational</td>
+<td>String</td>
+<td>User friendly message from resolveBindError, only on <code>success: false</code></td>
+</tr>
+<tr>
+<td>error</td>
+<td>Situational</td>
+<td>String</td>
+<td>The original error generated, only on <code>success: false</code></td>
+</tr>
+</tbody>
+</table>
+<h3>getAllUsers(username, password, base <code>(optional)</code>)</h3><p>Look-up all the users in active directory that the user can read, which is based on read permission configuration in active directory. All user entry objects are returned in an array.</p>
+<pre class="prettyprint source lang-javascript"><code>{
+    success: true,
+    users: [
+        // This is a valid entry just like login user and can be passed to createUserObj() method.
+        SearchEntry: {}
+    ]
+}</code></pre><p>This function takes a username and password and will return a Promise. <strong>The promise will only reject client connection issues</strong>, invalid authentication will still resolve the promise. This was done to make it easier to provide a different error or to try a 2ndry auth source easily. The success key is on all types of responses and should be used to verify if user was logged in. If success is false there will be 2 additional keys, message and error.</p>
+<pre class="prettyprint source lang-javascript"><code>myAD.getAllUsers('test@domain.local','password','cn=Users,dc=domain,dc=local') // Example of only searching Users OU inside the domain
+    .then(res => {
+        // If it failed to auth user find out why
+        if(!res.success) {
+            console.log(res.message);
+            return;
+        }
+
+        // This uses the creatUserObj() method to turn all the entries in the array into user objects.
+        const users = res.users.map(user => ActiveDirectory.createUserObj(user)); 
+
+        console.log(users);
+    })
+    .catch(err => console.error(err))</code></pre><p><strong>Both resolve &amp; reject will be in the following format</strong></p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Returned</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>success</td>
+<td>Always</td>
+<td>Boolean</td>
+<td>Indicates if the login succeeded</td>
+</tr>
+<tr>
+<td>Users</td>
+<td>Situational</td>
+<td>Array</td>
+<td>An array of all the user entries the user has permissions to read in AD and match the base / scope.</td>
+</tr>
+<tr>
+<td>message</td>
+<td>Situational</td>
+<td>String</td>
+<td>User friendly message from resolveBindError, only on <code>success: false</code></td>
+</tr>
+<tr>
+<td>error</td>
+<td>Situational</td>
+<td>String</td>
+<td>The original error generated, only on <code>success: false</code></td>
+</tr>
+</tbody>
+</table>
+<h3>createUserObj(entry)</h3><p>Takes in the entry returned by ldapjs and creates a standardized user object. If you do not want to store all the users data it is recommended you extract the values you need from this object, because in the future there will likely be many more fields added to this. The first set of fields added were based on immediate needs.</p>
+<p><em>If this does not have all the desired fields please feel free to add more in a PR or you can simply access them on the entry.objects or entry.attributes if you need the buffers.</em></p>
+<pre class="prettyprint source lang-javascript"><code>const user = ActiveDirectory.resolveBindError(res.entry)
+
+console.log(user) // {groups: [], phone: '', name: '', mail: '', guid: ''}</code></pre><p><strong>Returns Object</strong></p>
+<table>
+<thead>
+<tr>
+<th>Returned</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>groups</td>
+<td>Array</td>
+<td>An array of group name strings. <em>This is the group names only, not the full AD location</em></td>
+</tr>
+<tr>
+<td>phone</td>
+<td>String</td>
+<td>Users phone number</td>
+</tr>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>Users full name</td>
+</tr>
+<tr>
+<td>mail</td>
+<td>String</td>
+<td>Users email address</td>
+</tr>
+<tr>
+<td>guid</td>
+<td>String</td>
+<td>Unique AD key, this should be used to track and or link the user account to your app.</td>
+</tr>
+</tbody>
+</table>
+<h3>resolveBindError(entry)</h3><p>This function takes in the ldapjs errors and checks if it's due to invalid credentials or if the account is locked out. <strong>This does not check if an account is disabled, so it will still return as invalid credentials</strong></p>
+<pre class="prettyprint source lang-javascript"><code>const message = ActiveDirectory.resolveBindError(res.entry)
+// Examples: Account is locked out, Invalid username or password, or Error resolving account.</code></pre><h3>resolveGUID(entry)</h3><p>Takes in the entry returned by ldapjs and creates a GUID string. This should be used as your unique ID in your app or somehow used to link to a unique ID in your app. This will not change for the life of the object in AD, so even if the users name or email is changed this will stay the same.</p>
+<pre class="prettyprint source lang-javascript"><code>const guid = ActiveDirectory.resolveGUID(res.entry)
+// Example: 17d4e710-624d-4978-900b-8549cb753699</code></pre><h3>resolveGroups(entry)</h3><p>Takes in the entry returned by ldapjs and creates an array of the users groups.</p>
+<pre class="prettyprint source lang-javascript"><code>const guid = ActiveDirectory.resolveGroups(res.entry)
+// Example: ['Group1', 'Group2']</code></pre><h1>Potential Issues</h1><p>Sometimes ldapjs has issues with newer version of Node, please see ldapjs for any of these issues.</p></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<footer>
+    <img class="logo" src="img/toast-ui.png" style="width: 0px; height: 0px">
+    <div class="footer-text">Node Active Directory Tools</div>
+</footer>
+<script>prettyPrint();</script>
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/tui-doc.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+    <script>
+        var id = 'package:undefined_sub'.replace(/"/g, '_');
+        var selectedApi = document.getElementById(id); // do not use jquery selector
+        var $selectedApi = $(selectedApi);
+
+        $selectedApi.removeClass('hidden');
+        $selectedApi.parent().find('.glyphicon').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+        showLnbApi();
+    </script>
+
+</body>
+</html>
