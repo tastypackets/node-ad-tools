@@ -1,5 +1,6 @@
 # node-ad-tools
-![npm](https://img.shields.io/npm/v/node-ad-tools.svg) <br/>
+![npm](https://img.shields.io/npm/v/node-ad-tools.svg) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftastypackets%2Fnode-ad-tools.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Ftastypackets%2Fnode-ad-tools?ref=badge_shield)
+<br/>
 NodeJS Active Directory authentication and tools. - **Requires ES6 support**
 
 This is a simple wrapper around ldapjs, which is a full ldap server & client. For custom or advanced setups please see https://github.com/joyent/node-ldapjs. This is highly opinionated and lacking in may features right now, but should work for simple AD authentication.
@@ -221,3 +222,7 @@ const guid = ActiveDirectory.resolveGroups(res.entry)
 
 # Potential Issues
 Sometimes ldapjs has issues with newer version of Node, please see ldapjs for any of these issues.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftastypackets%2Fnode-ad-tools.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Ftastypackets%2Fnode-ad-tools?ref=badge_large)
