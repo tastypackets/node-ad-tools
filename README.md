@@ -3,7 +3,7 @@
 <br/>
 NodeJS Active Directory authentication and tools. - **Requires ES6 support**
 
-This is a simple wrapper around ldapjs, which is a full ldap server & client. For custom or advanced setups please see https://github.com/joyent/node-ldapjs. This is highly opinionated and lacking in may features right now, but should work for simple AD authentication.
+This is a simple wrapper around ldapjs, which is a full ldap server & client. For custom or advanced setups please see https://github.com/joyent/node-ldapjs. This is highly opinionated and lacking in many features right now, but should work for simple AD authentication.
 
 PR's that improve the project are welcomed, right now development is primarily on an as-needed basis.
 
