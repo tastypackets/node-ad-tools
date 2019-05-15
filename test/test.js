@@ -126,4 +126,14 @@ describe('Static Functions', () => {
             //AD.detectLogonType(upn);
         })
     })
+
+    describe('#convertToDate()', () => {
+        it('Should be able to convert AD formatted dates to JS dates', () => {
+            const whenCreated = '20151008164023.0Z';
+            const whenChanged = '20190227163916.0Z';
+
+            assert.strictEqual(AD.convertToDate(whenCreated).toISOString(), '2015-10-08T16:40:23.000Z');
+            assert.strictEqual(AD.convertToDate(whenChanged).toISOString(), '2019-02-27T16:39:16.000Z')
+        })
+    })
   });
