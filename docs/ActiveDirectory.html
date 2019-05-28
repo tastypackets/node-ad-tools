@@ -34,7 +34,7 @@
         <ul></ul>
     </div>
     
-    <div class="lnb-api hidden"><h3>Classes</h3><ul><li><a href="ActiveDirectory.html">ActiveDirectory</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ActiveDirectory_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="ActiveDirectory.html#.createUserObj">createUserObj</a></li><li><a href="ActiveDirectory.html#.resolveBindError">resolveBindError</a></li><li><a href="ActiveDirectory.html#.resolveGroups">resolveGroups</a></li><li><a href="ActiveDirectory.html#.resolveGUID">resolveGUID</a></li><li><a href="ActiveDirectory.html#getAllGroups">getAllGroups</a></li><li><a href="ActiveDirectory.html#getAllUsers">getAllUsers</a></li><li><a href="ActiveDirectory.html#loginUser">loginUser</a></li></ul></div></li></ul></div>
+    <div class="lnb-api hidden"><h3>Classes</h3><ul><li><a href="ActiveDirectory.html">ActiveDirectory</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ActiveDirectory_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="ActiveDirectory.html#.cleanSama">cleanSama</a></li><li><a href="ActiveDirectory.html#.convertToDate">convertToDate</a></li><li><a href="ActiveDirectory.html#.createUserObj">createUserObj</a></li><li><a href="ActiveDirectory.html#.detectLogonType">detectLogonType</a></li><li><a href="ActiveDirectory.html#.resolveBindError">resolveBindError</a></li><li><a href="ActiveDirectory.html#.resolveGroups">resolveGroups</a></li><li><a href="ActiveDirectory.html#.resolveGUID">resolveGUID</a></li><li><a href="ActiveDirectory.html#_bind">_bind</a></li><li><a href="ActiveDirectory.html#_search">_search</a></li><li><a href="ActiveDirectory.html#getAllGroups">getAllGroups</a></li><li><a href="ActiveDirectory.html#getAllUsers">getAllUsers</a></li><li><a href="ActiveDirectory.html#loginUser">loginUser</a></li></ul></div></li></ul></div>
 </nav>
 <div id="resizer"></div>
 
@@ -505,6 +505,326 @@
 
 <dt>
     
+        <h4 class="name" id=".cleanSama">
+            
+                <span class="type-signature"><span class="icon green">static</span> </span>cleanSama<span class="signature">(sAMA)</span><span class="type-signature"> &rarr; {string}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="ActiveDirectory.js.html">ActiveDirectory.js</a></code>,
+                <code><a href="ActiveDirectory.js.html#line161">line 161</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Cleans sAMAccountName
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>sAMA</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">string</span>
+
+
+
+
+
+- sAMAccountName
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id=".convertToDate">
+            
+                <span class="type-signature"><span class="icon green">static</span> </span>convertToDate<span class="signature">(date)</span><span class="type-signature"> &rarr; {Date}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="ActiveDirectory.js.html">ActiveDirectory.js</a></code>,
+                <code><a href="ActiveDirectory.js.html#line145">line 145</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Converts the ActiveDirectory / LDAP fields whenCreated & whenChanged to JS dates
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>date</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Date</span>
+
+
+
+
+
+- ISO formatted date
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
         <h4 class="name" id=".createUserObj">
             
                 <span class="type-signature"><span class="icon green">static</span> </span>createUserObj<span class="signature">(entry)</span><span class="type-signature"> &rarr; {object}</span>
@@ -611,6 +931,166 @@
 
 
 - User object { groups: Array, phone: string, name: string, mail: string, guid: string }
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id=".detectLogonType">
+            
+                <span class="type-signature"><span class="icon green">static</span> </span>detectLogonType<span class="signature">(username)</span><span class="type-signature"> &rarr; {string}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="ActiveDirectory.js.html">ActiveDirectory.js</a></code>,
+                <code><a href="ActiveDirectory.js.html#line129">line 129</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Detects what type of account name this is or defaults to userLogonName
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>username</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The user name being used to bind</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">string</span>
+
+
+
+
+
+- Returns userPrincipalName || distinguishedName || sAMAccountName
 
 
 
@@ -1145,14 +1625,434 @@
 
 <dt>
     
-        <h4 class="name" id="getAllGroups">
+        <h4 class="name" id="_bind">
             
-                <span class="type-signature"></span>getAllGroups<span class="signature">(username, password, customBase<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;object>}</span>
+                <span class="type-signature"></span>_bind<span class="signature">(client, username, password)</span><span class="type-signature"> &rarr; {Promise}</span>
                 
             
             <div class="container-source members">
                 <code><a href="ActiveDirectory.js.html">ActiveDirectory.js</a></code>,
-                <code><a href="ActiveDirectory.js.html#line204">line 204</a></code>
+                <code><a href="ActiveDirectory.js.html#line174">line 174</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Performs a bind on the client passed in
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>client</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">ldap.Client</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">LDAPjs client obj</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>username</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Username to bind with</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>password</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Password to bind with</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Throws:</h5>
+    
+            
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        If username or password are not a string
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">Error</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+        
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Promise</span>
+
+
+
+
+
+- Resolvs with LDAPjs response
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="_search">
+            
+                <span class="type-signature"></span>_search<span class="signature">(client, base, search)</span><span class="type-signature"></span>
+                
+            
+            <div class="container-source members">
+                <code><a href="ActiveDirectory.js.html">ActiveDirectory.js</a></code>,
+                <code><a href="ActiveDirectory.js.html#line200">line 200</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Performs a search on a client
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>client</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">ldap.Client</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">LDAPjs client obj</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>base</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The base to perform the search on</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>search</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The search options to use</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="getAllGroups">
+            
+                <span class="type-signature"><span class="icon green">async</span> </span>getAllGroups<span class="signature">(username, password, customBase<span class="signature-attributes">opt</span>, detailed)</span><span class="type-signature"> &rarr; {Promise.&lt;object>}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="ActiveDirectory.js.html">ActiveDirectory.js</a></code>,
+                <code><a href="ActiveDirectory.js.html#line276">line 276</a></code>
             </div>
             
         </h4>
@@ -1294,6 +2194,37 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>detailed</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Indicates if you want the detailed groups objects with name, dn, guid, description, created, and changed values</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -1381,12 +2312,12 @@
     
         <h4 class="name" id="getAllUsers">
             
-                <span class="type-signature"></span>getAllUsers<span class="signature">(username, password, customBase<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;object>}</span>
+                <span class="type-signature"><span class="icon green">async</span> </span>getAllUsers<span class="signature">(username, password, customBase<span class="signature-attributes">opt</span>, formatted)</span><span class="type-signature"> &rarr; {Promise.&lt;object>}</span>
                 
             
             <div class="container-source members">
                 <code><a href="ActiveDirectory.js.html">ActiveDirectory.js</a></code>,
-                <code><a href="ActiveDirectory.js.html#line284">line 284</a></code>
+                <code><a href="ActiveDirectory.js.html#line333">line 333</a></code>
             </div>
             
         </h4>
@@ -1528,6 +2459,37 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>formatted</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Indicates if you;d like your response formatted as user objects</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -1615,12 +2577,12 @@
     
         <h4 class="name" id="loginUser">
             
-                <span class="type-signature"></span>loginUser<span class="signature">(username, password, customBase<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;object>}</span>
+                <span class="type-signature"><span class="icon green">async</span> </span>loginUser<span class="signature">(username, password, customBase, customSearch)</span><span class="type-signature"> &rarr; {Promise.&lt;object>}</span>
                 
             
             <div class="container-source members">
                 <code><a href="ActiveDirectory.js.html">ActiveDirectory.js</a></code>,
-                <code><a href="ActiveDirectory.js.html#line131">line 131</a></code>
+                <code><a href="ActiveDirectory.js.html#line238">line 238</a></code>
             </div>
             
         </h4>
@@ -1632,8 +2594,7 @@
 
     
     <div class="description">
-        Attempts to authenticate 1 user to AD using their UPN.
-If the ldap client has an error a user friendly message is in message and the full error is in error.
+        Attempts to authenticate 1 user to AD using their UPN.If the ldap client has an error a user friendly message is in message and the full error is in error.
     </div>
     
 
@@ -1656,8 +2617,6 @@ If the ldap client has an error a user friendly message is in message and the fu
 
         <th>Type</th>
 
-        
-        <th>Attributes</th>
         
 
         
@@ -1684,14 +2643,6 @@ If the ldap client has an error a user friendly message is in message and the fu
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
 
             
 
@@ -1714,14 +2665,6 @@ If the ldap client has an error a user friendly message is in message and the fu
             
             </td>
 
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
             
 
             
@@ -1746,20 +2689,33 @@ If the ldap client has an error a user friendly message is in message and the fu
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
 
             <td class="description last">Override the default class base, if not passed the class base is used.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>customSearch</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A custom search string, e.g. (userPrincipalName=test@domain.local)</td>
         </tr>
 
     
@@ -1793,7 +2749,7 @@ If the ldap client has an error a user friendly message is in message and the fu
 
 
 
-- Promise resolves as an obj { success: true, entry: {} } || { success: false, message: 'error', error: 'ldapjs error' }
+- Promise resolves as an obj { success: true, entry: {} || undefined } || { success: false, message: 'error', error: 'ldapjs error' }
 
 
 

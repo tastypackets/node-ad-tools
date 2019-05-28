@@ -34,7 +34,7 @@
         <ul></ul>
     </div>
     
-    <div class="lnb-api hidden"><h3>Classes</h3><ul><li><a href="ActiveDirectory.html">ActiveDirectory</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ActiveDirectory_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="ActiveDirectory.html#.createUserObj">createUserObj</a></li><li><a href="ActiveDirectory.html#.resolveBindError">resolveBindError</a></li><li><a href="ActiveDirectory.html#.resolveGroups">resolveGroups</a></li><li><a href="ActiveDirectory.html#.resolveGUID">resolveGUID</a></li><li><a href="ActiveDirectory.html#getAllGroups">getAllGroups</a></li><li><a href="ActiveDirectory.html#getAllUsers">getAllUsers</a></li><li><a href="ActiveDirectory.html#loginUser">loginUser</a></li></ul></div></li></ul></div>
+    <div class="lnb-api hidden"><h3>Classes</h3><ul><li><a href="ActiveDirectory.html">ActiveDirectory</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ActiveDirectory_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="ActiveDirectory.html#.cleanSama">cleanSama</a></li><li><a href="ActiveDirectory.html#.convertToDate">convertToDate</a></li><li><a href="ActiveDirectory.html#.createUserObj">createUserObj</a></li><li><a href="ActiveDirectory.html#.detectLogonType">detectLogonType</a></li><li><a href="ActiveDirectory.html#.resolveBindError">resolveBindError</a></li><li><a href="ActiveDirectory.html#.resolveGroups">resolveGroups</a></li><li><a href="ActiveDirectory.html#.resolveGUID">resolveGUID</a></li><li><a href="ActiveDirectory.html#_bind">_bind</a></li><li><a href="ActiveDirectory.html#_search">_search</a></li><li><a href="ActiveDirectory.html#getAllGroups">getAllGroups</a></li><li><a href="ActiveDirectory.html#getAllUsers">getAllUsers</a></li><li><a href="ActiveDirectory.html#loginUser">loginUser</a></li></ul></div></li></ul></div>
 </nav>
 <div id="resizer"></div>
 
@@ -57,10 +57,47 @@
 
 
     <section>
-        <article class="readme"><h1>node-ad-tools</h1><p><img src="https://img.shields.io/npm/v/node-ad-tools.svg" alt="npm"> <br/>
+        <article class="readme"><h1>Features</h1><p><strong>Current - v1.2.0</strong></p>
+<ul>
+<li>Logins process is fully implemented using users credentials, no service account needed.</li>
+<li>Login with UPN, DN, and sAMAccountName - <em>DN &amp; sAMAccountName added in 1.2</em></li>
+<li>Retrieves user object and user's groups on login</li>
+<li>Can retrieve all groups in an OU and it's sub OUs (Using the root you can get all groups in AD)</li>
+<li>Can retrieve all users in an OU and it's sub OUs (Using the root you can get all users in AD)</li>
+<li>Can create user and group formatted objects with DN and GUID when retrieving all users and groups. - <em>Added in 1.2</em></li>
+<li>Resolves GUID, which is a unique ID in AD given to objects. This can be used to keep track of users and groups even if the names are changed.</li>
+<li>Provides error message for user accounts that are locked out: <code>Account is locked out</code></li>
+<li>Override user search after bind for complex AD configurations - <em>Added in 1.2</em></li>
+</ul>
+<p><strong>Planned features for 2.0.0</strong></p>
+<ul>
+<li>User password reset</li>
+<li>Admin / service account password reset</li>
+<li>Add / remove user from groups</li>
+<li>Return group objects with DN/GUID for all user logins, this will help ensure consistency of group based permissions using GUID.</li>
+<li>Change functions to object parameters / destructuring</li>
+<li>Provide multiple ADs to be tried if one is unreachable</li>
+</ul>
+<p><strong>Important Notes</strong>
+sAMAccountName can only bind with the domain name, if you want users to be able to type their sAMAccountName in the UPN format and still get a user object you will need to pre-process this string or provide a customSearch object. For example lets say we have a username with a sAMAccountName of <code>test</code> and the domain of <code>test.local</code>, but the user has a UPN of <a href="mailto:`test@test.com">`test@test.com</a>`.</p>
+<p>These options will work by default with no changes:</p>
+<ul>
+<li>Login with <code>test\test</code></li>
+<li>Login with <a href="mailto:`test@test.com">`test@test.com</a>`</li>
+</ul>
+<p>In order to let the user login with <a href="mailto:`test@test.local">`test@test.local</a><code>we would need to convert the string to</code>test\test` or we would need to provide a customSearch on the loginUser method. Originally this was being added to v1.2.0 as an auto-fallback if no user was located with UPN, however due to unknown possible security issues and lack of testing time I decided it'd be safe to leave this process up to the dev and not include the auto-fallback process in v1.2.0.</p>
+<p>Here is an example of providing a customSearch to address the issue:</p>
+<pre class="prettyprint source lang-javascript"><code>    const username = 'test@test.local';
+    const sam = username.split('@')[0];
+    const customSearch = { filter: `(sAMAccountName=${sam})` }
+
+    myAD.loginUser(username,'Welcome1',null , customSearch)</code></pre><h1>node-ad-tools</h1><p><img src="https://img.shields.io/npm/v/node-ad-tools.svg" alt="npm"> <a href="https://app.fossa.io/projects/git%2Bgithub.com%2Ftastypackets%2Fnode-ad-tools?ref=badge_shield"><img src="https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftastypackets%2Fnode-ad-tools.svg?type=shield" alt="FOSSA Status"></a>
+<br/>
 NodeJS Active Directory authentication and tools. - <strong>Requires ES6 support</strong></p>
-<p>This is a simple wrapper around ldapjs, which is a full ldap server &amp; client. For custom or advanced setups please see https://github.com/joyent/node-ldapjs. This is highly opinionated and lacking in may features right now, but should work for simple AD authentication.</p>
+<p>This is a simple wrapper around ldapjs, which is a full ldap server &amp; client. For custom or advanced setups please see https://github.com/joyent/node-ldapjs. This is highly opinionated and lacking in many features right now, but should work for simple AD authentication.</p>
 <p>PR's that improve the project are welcomed, right now development is primarily on an as-needed basis.</p>
+<p>API docs generated by jsdoc available here: https://tastypackets.github.io/node-ad-tools/</p>
+<p><em>All binds and searchs are done using the credentials passed to the methods, that is why no credentials / service account is needed when creating the AD object.</em></p>
 <h1>API</h1><h2>Install</h2><p><code>yarn add node-ad-tools</code></p>
 <h3>Setup AD</h3><p>The active directory class requires a basic configuration object that will inform ldapjs of the binding and searching parameters. This is configured once by creating a new ActiveDirectory object, if you need to change these settings dynamically you can construct the object right before performing the auth.</p>
 <pre class="prettyprint source lang-javascript"><code>{
@@ -78,7 +115,7 @@ const myADConfig = {
 
 const myAD = new ActiveDirectory(myADConfig);
 
-myAD.loginUser('test@domain.local','password')
+myAD.loginUser('test@domain.local','password', true)
     .then(res => {
         // If it failed to auth user find out why
         if(!res.success) {
@@ -133,7 +170,9 @@ myAD.loginUser('test@domain.local','password','cn=Users,dc=example,dc=local')</c
 </tr>
 </tbody>
 </table>
-<h2>Methods</h2><h3>loginUser(username, password, base <code>(optional)</code>)</h3><p>This function takes a username and password and will return a Promise. <strong>The promise will only reject client connection issues</strong>, invalid authentication will still resolve the promise. This was done to make it easier to provide a different error or to try a 2ndry auth source easily. The success key is on all types of responses and should be used to verify if user was logged in. If success is false there will be 2 additional keys, message and error.</p>
+<h2>Methods</h2><h3>loginUser(username, password, base <em>optional</em>, customSearch <em>optional</em>)</h3><p>This function takes a username and password and will return a Promise. <strong>The promise will only reject client connection issues</strong>, invalid authentication will still resolve the promise. This was done to make it easier to provide a different error or to try a 2ndry auth source easily. The success key is on all types of responses and should be used to verify if user was logged in. If success is false there will be 2 additional keys, message and error.</p>
+<p>The param customSearch was added in v1.2.0 and allows you yo override the search for the user object if the default process is not sufficient. To view all available options please look at ldapjs search options. For example you can modify the search by passing in a custom filter key.</p>
+<p>If the bin is successful, but the method is unable to locate an account entry will be undefined. This means the credentials passed are valid credentials, however the filter / AD was unable to locate a matching account. You will likely need to provide a customSearch in this case.</p>
 <pre class="prettyprint source lang-javascript"><code>myAD.loginUser('test@domain.local','password')
     .then(res => {
         // If it failed to auth user find out why
@@ -166,6 +205,7 @@ myAD.loginUser('test@domain.local','password','cn=Users,dc=example,dc=local')</c
 <td>entry</td>
 <td>Situational</td>
 <td>Object</td>
+<td>Undefined</td>
 <td>Entry is the ldapjs entry response</td>
 </tr>
 <tr>
@@ -182,15 +222,38 @@ myAD.loginUser('test@domain.local','password','cn=Users,dc=example,dc=local')</c
 </tr>
 </tbody>
 </table>
-<h3>getAllGroups(username, password, base <code>(optional)</code>)</h3><p>Look-up all the groups in active directory that the user can read, which is based on read permission configuration in active directory. All groups are returned in array of strings.</p>
-<p><strong>This is all groups the user can read, not just groups the user is a member of.</strong></p>
-<pre class="prettyprint source"><code>[
+<h3>getAllGroups(username, password, base <em>optional</em>, detailed <em>optional</em>)</h3><p>Look-up all the groups in active directory that the user can read, which is based on read permission configuration in active directory. All groups are returned in array of strings.</p>
+<p>The detailed param was added in v1.2.0 and will create group objects for every group returned. These group objects contain additional useful information and in v2.0.0 will be on by default.</p>
+<p><strong>This is all groups the user can read, not just groups the user is a member of.</strong>
+Regular none-detailed groups</p>
+<pre class="prettyprint source lang-javascript"><code>[
     'Domain Users',
     'Domain Guests',
     'Group 1',
     'Group 2'
+]</code></pre><p>Detailed groups</p>
+<pre class="prettyprint source lang-javascript"><code>[
+    { 
+        name: 'My Group',
+        dn: 'CN=My Group,CN=Users,DC=test,DC=local',
+        guid: 'a4f84d99-e0c8-4e60-87e3-53444fd6fe0a',
+        description: 'This is my test group!',
+        created: '2018-07-27T20:44:07.000Z', // JS Date Obj - This is not a string, I showed a string for demonstration
+        changed: '2019-02-27T16:39:18.000Z' // JS Date Obj
+    }
 ]</code></pre><p>This function takes a username and password and will return a Promise. <strong>The promise will only reject client connection issues</strong>, invalid authentication will still resolve the promise. This was done to make it easier to provide a different error or to try a 2ndry auth source easily. The success key is on all types of responses and should be used to verify if user was logged in. If success is false there will be 2 additional keys, message and error.</p>
 <pre class="prettyprint source lang-javascript"><code>myAD.getAllGroups('test@domain.local','password')
+    .then(res => {
+        // If it failed to auth user find out why
+        if(!res.success) {
+            console.log(res.message);
+            return;
+        }
+
+        console.log(res.groups);
+    })
+    .catch(err => console.error(err))</code></pre><p>Get all groups in detailed mode and provide no custom base example:</p>
+<pre class="prettyprint source lang-javascript"><code>myAD.getAllGroups('test@domain.local','password', true)
     .then(res => {
         // If it failed to auth user find out why
         if(!res.success) {
@@ -237,15 +300,38 @@ myAD.loginUser('test@domain.local','password','cn=Users,dc=example,dc=local')</c
 </tr>
 </tbody>
 </table>
-<h3>getAllUsers(username, password, base <code>(optional)</code>)</h3><p>Look-up all the users in active directory that the user can read, which is based on read permission configuration in active directory. All user entry objects are returned in an array.</p>
+<h3>getAllUsers(username, password, base <em>optional</em>, formatted <em>optional</em>)</h3><p>Look-up all the users in active directory that the user can read, which is based on read permission configuration in active directory. All user entry objects are returned in an array.</p>
+<p>The formatted param was added in v1.2.0 and if set to true will convert all entries into user objects using the ActiveDirectory.createUserObj() method.</p>
 <pre class="prettyprint source lang-javascript"><code>{
     success: true,
     users: [
         // This is a valid entry just like login user and can be passed to createUserObj() method.
-        SearchEntry: {}
+        SearchEntry,
+        SearchEntry
+    ]
+}</code></pre><p>Example with formatted set to true:</p>
+<pre class="prettyprint source lang-javascript"><code>{
+    success: true,
+    users: [
+        {
+            groups: [ 'Staff', 'Users' ],
+            phone: '',
+            name: 'First User',
+            mail: 'firstuser@test.com',
+            guid: '579de45e-faf5-40f8-8eff-be2d76bd20d9',
+            dn: 'CN=First User,OU=Users,DC=test,DC=com'
+        },
+        {
+            groups: [ 'Staff', 'Users' ],
+            phone: '',
+            name: 'Second User',
+            mail: 'seconduser@test.com',
+            guid: '579de45e-faf5-40f8-8eff-be2d76bd20d9',
+            dn: 'CN=Second User,OU=Users,DC=test,DC=com'
+        }
     ]
 }</code></pre><p>This function takes a username and password and will return a Promise. <strong>The promise will only reject client connection issues</strong>, invalid authentication will still resolve the promise. This was done to make it easier to provide a different error or to try a 2ndry auth source easily. The success key is on all types of responses and should be used to verify if user was logged in. If success is false there will be 2 additional keys, message and error.</p>
-<pre class="prettyprint source lang-javascript"><code>myAD.getAllUsers('test@domain.local','password','cn=Users,dc=domain,dc=local') // Example of only searching Users OU inside the domain
+<pre class="prettyprint source lang-javascript"><code>myAD.getAllUsers('test@domain.local','password','cn=Users,dc=domain,dc=local', true) // Example of only searching Users OU inside the domain
     .then(res => {
         // If it failed to auth user find out why
         if(!res.success) {
@@ -253,10 +339,7 @@ myAD.loginUser('test@domain.local','password','cn=Users,dc=example,dc=local')</c
             return;
         }
 
-        // This uses the creatUserObj() method to turn all the entries in the array into user objects.
-        const users = res.users.map(user => ActiveDirectory.createUserObj(user)); 
-
-        console.log(users);
+        console.log(res.users);
     })
     .catch(err => console.error(err))</code></pre><p><strong>Both resolve &amp; reject will be in the following format</strong></p>
 <table>
@@ -297,9 +380,10 @@ myAD.loginUser('test@domain.local','password','cn=Users,dc=example,dc=local')</c
 </table>
 <h3>createUserObj(entry)</h3><p>Takes in the entry returned by ldapjs and creates a standardized user object. If you do not want to store all the users data it is recommended you extract the values you need from this object, because in the future there will likely be many more fields added to this. The first set of fields added were based on immediate needs.</p>
 <p><em>If this does not have all the desired fields please feel free to add more in a PR or you can simply access them on the entry.objects or entry.attributes if you need the buffers.</em></p>
+<p>The user DN was added to the user object in v1.2.0</p>
 <pre class="prettyprint source lang-javascript"><code>const user = ActiveDirectory.resolveBindError(res.entry)
 
-console.log(user) // {groups: [], phone: '', name: '', mail: '', guid: ''}</code></pre><p><strong>Returns Object</strong></p>
+console.log(user) // {groups: [], phone: '', name: '', mail: '', guid: '', dn: ''}</code></pre><p><strong>Returns Object</strong></p>
 <table>
 <thead>
 <tr>
@@ -342,7 +426,8 @@ console.log(user) // {groups: [], phone: '', name: '', mail: '', guid: ''}</code
 <pre class="prettyprint source lang-javascript"><code>const guid = ActiveDirectory.resolveGUID(res.entry)
 // Example: 17d4e710-624d-4978-900b-8549cb753699</code></pre><h3>resolveGroups(entry)</h3><p>Takes in the entry returned by ldapjs and creates an array of the users groups.</p>
 <pre class="prettyprint source lang-javascript"><code>const guid = ActiveDirectory.resolveGroups(res.entry)
-// Example: ['Group1', 'Group2']</code></pre><h1>Potential Issues</h1><p>Sometimes ldapjs has issues with newer version of Node, please see ldapjs for any of these issues.</p></article>
+// Example: ['Group1', 'Group2']</code></pre><h1>Potential Issues</h1><p>Sometimes ldapjs has issues with newer version of Node, please see ldapjs for any of these issues.</p>
+<h2>License</h2><p><a href="https://app.fossa.io/projects/git%2Bgithub.com%2Ftastypackets%2Fnode-ad-tools?ref=badge_large"><img src="https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftastypackets%2Fnode-ad-tools.svg?type=large" alt="FOSSA Status"></a></p></article>
     </section>
 
 

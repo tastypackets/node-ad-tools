@@ -11,6 +11,7 @@ const testEntry = {
         telephoneNumber: '+1 12312312324',
         name: 'Test User'
     },
+    objectName: 'CN=Test test,OU=Users,DC=domain,DC=local',
     attributes: [
         {
             type: 'objectGUID',
@@ -99,7 +100,8 @@ describe('Static Functions', () => {
                 mail: 'test@domain.com',
                 phone: '+1 12312312324',
                 name: 'Test User',
-                guid: '17d4e710-624d-4978-900b-8549cb753699'
+                guid: '17d4e710-624d-4978-900b-8549cb753699',
+                dn: 'CN=Test test,OU=Users,DC=domain,DC=local'
             }
             
             assert.deepStrictEqual(
@@ -111,4 +113,38 @@ describe('Static Functions', () => {
             assert.throws(() => AD.createUserObj(tmpEntry), Error);
         });
     });
+
+    describe('#detectLogonType()', () => {
+        it('Should be able to detect the username type', () => {
+            const upn = 'test@test.com';
+            const dn = 'CN=Test Test,OU=Users,DC=test,DC=com';
+            const userLogon = 'test\\test';
+
+            assert.strictEqual(AD.detectLogonType(upn), 'userPrincipalName');
+            assert.strictEqual(AD.detectLogonType(dn), 'distinguishedName')
+            assert.strictEqual(AD.detectLogonType(userLogon), 'sAMAccountName');
+            //AD.detectLogonType(upn);
+        })
+    })
+
+    describe('#convertToDate()', () => {
+        it('Should be able to convert AD formatted dates to JS dates', () => {
+            const whenCreated = '20151008164023.0Z';
+            const whenChanged = '20190227163916.0Z';
+
+            assert.strictEqual(AD.convertToDate(whenCreated).toISOString(), '2015-10-08T16:40:23.000Z');
+            assert.strictEqual(AD.convertToDate(whenChanged).toISOString(), '2019-02-27T16:39:16.000Z')
+        })
+    })
+
+    describe('#cleanSama()', () => {
+        it('Should be able to clean sAMAccountName strings', () => {
+            const withDomain = 'test\\test';
+            const withoutDomain = 'test';
+            //TODO: Add test for error when not string
+
+            assert.strictEqual(AD.cleanSama(withDomain), 'test');
+            assert.strictEqual(AD.cleanSama(withoutDomain), 'test');
+        })
+    })
   });
