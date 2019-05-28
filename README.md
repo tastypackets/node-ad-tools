@@ -38,6 +38,7 @@ sAMAccountName can only bind with the domain name, if you want users to be able 
 These options will work by default with no changes:
 - Login with `test\test`
 - Login with `test@test.com`
+- Login with `CN=Test,OU=Users,DC=test,DC=local`
 
 In order to let the user login with `test@test.local` we would need to convert the string to `test\test` or we would need to provide a customSearch on the loginUser method. Originally this was being added to v1.2.0 as an auto-fallback if no user was located with UPN, however due to unknown possible security issues and lack of testing time I decided it'd be safe to leave this process up to the dev and not include the auto-fallback process in v1.2.0.
 
