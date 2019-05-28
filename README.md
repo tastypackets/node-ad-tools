@@ -19,6 +19,7 @@
 - Provide multiple ADs to be tried if one is unreachable
 
 **Important Notes**
+
 sAMAccountName can only bind with the domain name, if you want users to be able to type their sAMAccountName in the UPN format and still get a user object you will need to pre-process this string or provide a customSearch object. For example lets say we have a username with a sAMAccountName of `test` and the domain of `test.local`, but the user has a UPN of `test@test.com`.
 
 These options will work by default with no changes:
