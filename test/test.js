@@ -136,4 +136,15 @@ describe('Static Functions', () => {
             assert.strictEqual(AD.convertToDate(whenChanged).toISOString(), '2019-02-27T16:39:16.000Z')
         })
     })
+
+    describe('#cleanSama()', () => {
+        it('Should be able to clean sAMAccountName strings', () => {
+            const withDomain = 'test\\test';
+            const withoutDomain = 'test';
+            //TODO: Add test for error when not string
+
+            assert.strictEqual(AD.cleanSama(withDomain), 'test');
+            assert.strictEqual(AD.cleanSama(withoutDomain), 'test');
+        })
+    })
   });
