@@ -1,6 +1,6 @@
 {
   "name": "node-ad-tools",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Basic Active Directory wrapper for ldapjs",
   "main": "index.js",
   "repository": {
