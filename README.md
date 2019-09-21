@@ -38,6 +38,7 @@ sAMAccountName can only bind with the domain name, if you want users to be able 
 These options will work by default with no changes:
 - Login with `test\test`
 - Login with `test@test.com`
+- Login with `CN=Test,OU=Users,DC=test,DC=local`
 
 In order to let the user login with `test@test.local` we would need to convert the string to `test\test` or we would need to provide a customSearch on the loginUser method. Originally this was being added to v1.2.0 as an auto-fallback if no user was located with UPN, however due to unknown possible security issues and lack of testing time I decided it'd be safe to leave this process up to the dev and not include the auto-fallback process in v1.2.0.
 
@@ -73,13 +74,13 @@ The active directory class requires a basic configuration object that will infor
 const { ActiveDirectory } = require('node-ad-tools');
 
 const myADConfig = {
-    url: 'ldap://192.168.1.1', // You can use DNS as well for redundancy in a domain, like domain.local
+    url: 'ldap://192.168.1.1', // You can use DNS as well, like domain.local
     base: 'dc=domain,dc=local'
 }
 
 const myAD = new ActiveDirectory(myADConfig);
 
-myAD.loginUser('test@domain.local','password', true)
+myAD.loginUser('test@domain.local','password')
     .then(res => {
         // If it failed to auth user find out why
         if(!res.success) {
@@ -113,9 +114,9 @@ myAD.loginUser('test@domain.local','password','cn=Users,dc=example,dc=local')
 ### loginUser(username, password, base *optional*, customSearch *optional*)
 This function takes a username and password and will return a Promise. **The promise will only reject client connection issues**, invalid authentication will still resolve the promise. This was done to make it easier to provide a different error or to try a 2ndry auth source easily. The success key is on all types of responses and should be used to verify if user was logged in. If success is false there will be 2 additional keys, message and error.
 
-The param customSearch was added in v1.2.0 and allows you yo override the search for the user object if the default process is not sufficient. To view all available options please look at ldapjs search options. For example you can modify the search by passing in a custom filter key.
+The param customSearch was added in v1.2.0 and allows you to override the search for the user object if the default process is not sufficient. To view all available options please look at ldapjs search options. For example you can modify the search by passing in a custom filter key.
 
-If the bin is successful, but the method is unable to locate an account entry will be undefined. This means the credentials passed are valid credentials, however the filter / AD was unable to locate a matching account. You will likely need to provide a customSearch in this case.
+If the bind is successful, but the method is unable to locate an account the res.entry will be undefined. This means the credentials passed are valid credentials, however the filter / AD was unable to locate a matching account. You will likely need to provide a customSearch in this case.
 
 ```javascript
 myAD.loginUser('test@domain.local','password')
@@ -245,7 +246,7 @@ Example with formatted set to true:
             phone: '',
             name: 'Second User',
             mail: 'seconduser@test.com',
-            guid: '579de45e-faf5-40f8-8eff-be2d76bd20d9',
+            guid: '502de45e-faf9-83f8-8eff-be6d76bd20d5',
             dn: 'CN=Second User,OU=Users,DC=test,DC=com'
         }
     ]
