@@ -1,3 +1,7 @@
+# Deprecated
+
+I have not needed to interact with AD in JS in many years and the underlying LDAP module has had major updates since this was made, this was one of the first NodeJS modules I ever made when new to JS and likely would need a decent amount of updates to stay current.
+
 # node-ad-tools
 ![npm](https://img.shields.io/npm/v/node-ad-tools.svg) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftastypackets%2Fnode-ad-tools.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Ftastypackets%2Fnode-ad-tools?ref=badge_shield)
 <br/>
